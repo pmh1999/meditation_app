@@ -10,10 +10,33 @@ import 'package:meditation_app/data/topic_storage.dart';
 import 'package:meditation_app/component/highlight.dart';
 import 'package:meditation_app/utils/theme.dart';
 import 'package:meditation_app/widgets/reponsive_builder.dart';
-import 'package:meditation_app/component/TopicGrid2.dart';
+import 'package:meditation_app/pages/Playlist.dart';
 import 'package:lottie/lottie.dart';
 
 final topicStorage = RemoteTopicStorage();
+
+List<Topic> list = [
+  const Topic(
+      title: "7 Days of Calm",
+      thumbnail: "assets/images/meditate_one.png",
+      color: "0xff8E97FD",
+      titleColor: "0xffFFECCC"),
+  const Topic(
+      title: "Anxiet Release",
+      thumbnail: "assets/images/meditate_two.png",
+      color: "0xffFFDB9D",
+      titleColor: "0xffFFECCC"),
+  const Topic(
+      title: "Anxiet Release",
+      thumbnail: "assets/images/meditate_three.png",
+      color: "0xff8E97FD",
+      titleColor: "0xffFFECCC"),
+  const Topic(
+      title: "Anxiet Release",
+      thumbnail: "assets/images/meditate_four.png",
+      color: "0xffFFDB9D",
+      titleColor: "0xffFFECCC"),
+];
 
 class Meditate extends StatefulWidget {
   const Meditate({Key? key}) : super(key: key);
@@ -117,7 +140,49 @@ class _MeditateState extends State<Meditate> with TickerProviderStateMixin {
                                 description: "MEDITATION 3-10 MIN",
                                 url: "images/daily_calm.png")),
                       ),
-                      const Expanded(child: TopicGrid2())
+                      Expanded(
+                          child: MasonryGridView.count(
+                        crossAxisCount: 2,
+                        itemCount: list.length,
+                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 16,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
+                        itemBuilder: (context, index) {
+                          final topic = list[index];
+                          return InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed('$PlayList');
+                            },
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: topic.bgColor,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  LayoutBuilder(
+                                      builder: (context, constraints) {
+                                    return Image(
+                                        image: AssetImage(topic.thumbnail));
+                                  }),
+                                  Padding(
+                                    padding: const EdgeInsets.all(16),
+                                    child: Text(
+                                      list[index].title,
+                                      style: PrimaryFont.bold(
+                                              context.screenSize.shortestSide *
+                                                  0.04)
+                                          .copyWith(color: topic.textColor),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ))
                     ],
                   ),
                   Container(

@@ -154,48 +154,77 @@ class RecommendedList extends StatelessWidget {
       itemCount: recommended.length,
       itemBuilder: (context, index) {
         final topic = recommended[index];
-        return InkWell(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Flexible(
-                  flex: 4,
-                  fit: FlexFit.tight,
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: SizedBox(
-                      width: context.screenSize.width * 0.4,
-                      child: DecoratedBox(
-                          decoration: BoxDecoration(
-                              color: topic.bgColor,
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Image(
-                              image: AssetImage(
-                            topic.thumbnail,
-                          ))),
-                    ),
-                  )),
-              Flexible(
-                flex: 1,
-                fit: FlexFit.loose,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(topic.title,
-                        style: PrimaryFont.bold(
-                            context.screenSize.shortestSide * 0.045)),
-                    Text("MEDITATION 3- 10 MIN",
-                        style: PrimaryFont.light(
-                            context.screenSize.shortestSide * 0.025)),
-                  ],
-                ),
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+          child: FittedBox(
+              child: InkWell(
+            child: Container(
+              width: 162,
+              height: 181.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                //color: topic.bgColor,
               ),
-            ],
-          ),
-          onTap: () {
-            Navigator.of(context).pushNamed('$PlayList');
-          },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // top image
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Container(
+                        color: topic.bgColor,
+                        child: Image(
+                          height: 115.0,
+                          image: AssetImage(topic.thumbnail),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Text Title
+                  Padding(
+                    padding: EdgeInsets.only(
+                        bottom: 5.0, left: 5.0, right: 5.0, top: 10.0),
+                    child: Text(
+                      topic.title,
+                      style: PrimaryFont.bold(18.0).copyWith(color: kColorText),
+                    ),
+                  ),
+
+                  Container(
+                      padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                      child: Row(
+                        children: [
+                          // Box Type
+                          Text("SLEEP MUSIC",
+                              style: PrimaryFont.light(11.0)
+                                  .copyWith(color: kColorText)),
+                          // Dot
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Container(
+                              padding: EdgeInsets.all(1.5),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(10)), //here
+                                color: kColorLightYellow,
+                              ),
+                            ),
+                          ),
+                          // Box Time
+                          Text(
+                            '40 MIN',
+                            style: PrimaryFont.light(11.0)
+                                .copyWith(color: kColorText),
+                          )
+                        ],
+                      )),
+                ],
+              ),
+            ),
+            onTap: () {},
+          )),
         );
       },
     );
