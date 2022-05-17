@@ -6,7 +6,7 @@ class DarkThemeNotifier extends ChangeNotifier {
 
   DarkThemeNotifier(this.sharedPreferences);
 
-  bool get isDarkMode => sharedPreferences?.getBool("isDarkMode") ?? false;
+  bool get isDarkMode => sharedPreferences.getBool("isDarkMode") ?? false;
 
   void setDarkMode(bool val) {
     sharedPreferences.setBool("isDarkMode", val);

@@ -1,19 +1,11 @@
-import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:meditation_app/component/highlight.dart';
-import 'package:meditation_app/data/model/my_error.model.dart';
 import 'package:meditation_app/data/model/topic.model.dart';
-import 'package:meditation_app/data/topic_storage.dart';
-import 'package:meditation_app/component/highlight.dart';
-import 'package:meditation_app/utils/theme.dart';
-import 'package:meditation_app/widgets/reponsive_builder.dart';
 import 'package:meditation_app/pages/Playlist.dart';
 import 'package:lottie/lottie.dart';
-
-final topicStorage = RemoteTopicStorage();
+import 'package:meditation_app/utils/ThemeData.dart';
+import 'package:provider/provider.dart';
+import 'package:meditation_app/provider/DarkThemeNotifier.dart';
 
 List<Topic> list = [
   const Topic(
@@ -38,6 +30,9 @@ List<Topic> list = [
       titleColor: "0xffFFECCC"),
 ];
 
+bool isDark = true;
+ThemeData? _style;
+
 class Sleep extends StatefulWidget {
   const Sleep({Key? key}) : super(key: key);
 
@@ -47,6 +42,15 @@ class Sleep extends StatefulWidget {
 
 class _SleepState extends State<Sleep> with TickerProviderStateMixin {
   TabController? _nestedTabController;
+
+  bool isDark = true;
+
+  @override
+  void didChangeDependencies() {
+    isDark = Provider.of<DarkThemeNotifier>(context).isDarkMode;
+    super.didChangeDependencies();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -62,11 +66,12 @@ class _SleepState extends State<Sleep> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    _style = Styles.themeData(isDark, context);
     return SafeArea(
       child: CustomScrollView(
         slivers: [
           SliverAppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: _style?.backgroundColor,
             expandedHeight: context.screenSize.height * 0.15,
             automaticallyImplyLeading: false,
             flexibleSpace: FlexibleSpaceBar(
@@ -76,11 +81,13 @@ class _SleepState extends State<Sleep> with TickerProviderStateMixin {
                 children: [
                   Text(
                     "Sleep",
-                    style: PrimaryFont.bold(20),
+                    style:
+                        PrimaryFont.bold(20).copyWith(color: _style?.cardColor),
                   ),
                   Text(
                     'we can learn how to recognize when our minds\n are doing their normal everyday acrobatics',
-                    style: PrimaryFont.light(15),
+                    style: PrimaryFont.light(15)
+                        .copyWith(color: _style?.cardColor),
                   ),
                 ],
               ),
@@ -88,11 +95,11 @@ class _SleepState extends State<Sleep> with TickerProviderStateMixin {
           ),
           SliverAppBar(
             elevation: 1,
-            backgroundColor: Colors.white,
+            backgroundColor: _style?.backgroundColor,
             pinned: true,
             bottom: TabBar(
                 controller: _nestedTabController,
-                indicatorColor: kColorPrimary,
+                indicatorColor: _style?.primaryColor,
                 isScrollable: true,
                 physics: const BouncingScrollPhysics(),
                 tabs: [
@@ -133,7 +140,9 @@ class _SleepState extends State<Sleep> with TickerProviderStateMixin {
                     children: [
                       Expanded(
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).pushNamed('$PlayList');
+                          },
                           child: Container(
                             height: context.screenSize.height * 0.2,
                             decoration: const BoxDecoration(
@@ -219,7 +228,7 @@ class _SleepState extends State<Sleep> with TickerProviderStateMixin {
                                     child: Text(
                                       topic.title,
                                       style: PrimaryFont.bold(18.0)
-                                          .copyWith(color: kColorText),
+                                          .copyWith(color: _style?.cardColor),
                                     ),
                                   ),
 
@@ -231,7 +240,9 @@ class _SleepState extends State<Sleep> with TickerProviderStateMixin {
                                           // Box Type
                                           Text("SLEEP MUSIC",
                                               style: PrimaryFont.light(11.0)
-                                                  .copyWith(color: kColorText)),
+                                                  .copyWith(
+                                                      color:
+                                                          _style?.cardColor)),
                                           // Dot
                                           Padding(
                                             padding: const EdgeInsets.all(5.0),
@@ -240,7 +251,7 @@ class _SleepState extends State<Sleep> with TickerProviderStateMixin {
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(10)), //here
-                                                color: kColorLightYellow,
+                                                color: _style?.cardColor,
                                               ),
                                             ),
                                           ),
@@ -248,7 +259,8 @@ class _SleepState extends State<Sleep> with TickerProviderStateMixin {
                                           Text(
                                             '40 MIN',
                                             style: PrimaryFont.light(11.0)
-                                                .copyWith(color: kColorText),
+                                                .copyWith(
+                                                    color: _style?.cardColor),
                                           )
                                         ],
                                       )),

@@ -2,18 +2,14 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meditation_app/component/highlight.dart';
-import 'package:meditation_app/data/model/my_error.model.dart';
 import 'package:meditation_app/data/model/topic.model.dart';
-import 'package:meditation_app/data/topic_storage.dart';
 import 'package:meditation_app/component/highlight.dart';
-import 'package:meditation_app/utils/theme.dart';
-import 'package:meditation_app/widgets/reponsive_builder.dart';
 import 'package:meditation_app/pages/Playlist.dart';
 import 'package:lottie/lottie.dart';
-
-final topicStorage = RemoteTopicStorage();
+import 'package:meditation_app/utils/ThemeData.dart';
+import 'package:provider/provider.dart';
+import 'package:meditation_app/provider/DarkThemeNotifier.dart';
 
 List<Topic> list = [
   const Topic(
@@ -38,6 +34,9 @@ List<Topic> list = [
       titleColor: "0xffFFECCC"),
 ];
 
+bool isDark = true;
+ThemeData? _style;
+
 class Meditate extends StatefulWidget {
   const Meditate({Key? key}) : super(key: key);
 
@@ -61,12 +60,19 @@ class _MeditateState extends State<Meditate> with TickerProviderStateMixin {
   }
 
   @override
+  void didChangeDependencies() {
+    isDark = Provider.of<DarkThemeNotifier>(context).isDarkMode;
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    _style = Styles.themeData(isDark, context);
     return SafeArea(
       child: CustomScrollView(
         slivers: [
           SliverAppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: _style?.backgroundColor,
             expandedHeight: context.screenSize.height * 0.15,
             automaticallyImplyLeading: false,
             flexibleSpace: FlexibleSpaceBar(
@@ -76,11 +82,13 @@ class _MeditateState extends State<Meditate> with TickerProviderStateMixin {
                 children: [
                   Text(
                     "Meditate",
-                    style: PrimaryFont.bold(20),
+                    style:
+                        PrimaryFont.bold(20).copyWith(color: _style?.cardColor),
                   ),
                   Text(
                     'we can learn how to recognize when our minds\n are doing their normal everyday acrobatics',
-                    style: PrimaryFont.light(15),
+                    style: PrimaryFont.light(15)
+                        .copyWith(color: _style?.cardColor),
                   ),
                 ],
               ),
@@ -88,11 +96,11 @@ class _MeditateState extends State<Meditate> with TickerProviderStateMixin {
           ),
           SliverAppBar(
             elevation: 1,
-            backgroundColor: Colors.white,
+            backgroundColor: _style?.backgroundColor,
             pinned: true,
             bottom: TabBar(
                 controller: _nestedTabController,
-                indicatorColor: kColorPrimary,
+                indicatorColor: _style?.primaryColor,
                 isScrollable: true,
                 physics: const BouncingScrollPhysics(),
                 tabs: [
@@ -136,9 +144,11 @@ class _MeditateState extends State<Meditate> with TickerProviderStateMixin {
                         child: SizedBox(
                             height: context.screenSize.height * 0.13,
                             child: Highlight(
-                                title: "Daily calm",
-                                description: "MEDITATION 3-10 MIN",
-                                url: "images/daily_calm.png")),
+                              title: "Daily calm",
+                              description: "MEDITATION 3-10 MIN",
+                              url: "images/daily_calm.png",
+                              color: Colors.black,
+                            )),
                       ),
                       Expanded(
                           child: MasonryGridView.count(

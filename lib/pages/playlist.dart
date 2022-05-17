@@ -9,10 +9,12 @@ import 'package:meditation_app/data/model/topic.model.dart';
 import 'package:meditation_app/data/topic_storage.dart';
 import 'package:meditation_app/component/highlight.dart';
 import 'package:meditation_app/pages/home_page.dart';
-import 'package:meditation_app/utils/theme.dart';
-import 'package:meditation_app/widgets/reponsive_builder.dart';
-import 'package:meditation_app/component/TopicGrid2.dart';
+
 import 'package:lottie/lottie.dart';
+import 'package:meditation_app/provider/DarkThemeNotifier.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import 'package:meditation_app/utils/ThemeData.dart';
 
 import 'dart:math' as Math;
 
@@ -25,6 +27,8 @@ class PlayList extends StatefulWidget {
 
 class PlayListState extends State<PlayList>
     with SingleTickerProviderStateMixin {
+  bool isDark = true;
+  ThemeData? _style;
   TabController? _tabController;
   List<Map> musics = [
     {"name": "Focus Attention", "time": "10 MIN"},
@@ -49,7 +53,15 @@ class PlayListState extends State<PlayList>
   }
 
   @override
+  void didChangeDependencies() {
+    isDark = Provider.of<DarkThemeNotifier>(context).isDarkMode;
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    _style = Styles.themeData(isDark, context);
+
     return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -58,7 +70,7 @@ class PlayListState extends State<PlayList>
             child: CustomScrollView(
               slivers: [
                 SliverAppBar(
-                  backgroundColor: Colors.white,
+                  backgroundColor: _style?.backgroundColor,
                   expandedHeight: 480,
                   automaticallyImplyLeading: false,
                   flexibleSpace: FlexibleSpaceBar(
@@ -199,22 +211,21 @@ class PlayListState extends State<PlayList>
                             text: TextSpan(
                               text: widget.title,
                               style: PrimaryFont.bold(34).copyWith(
-                                color: const Color(0xff3F414E),
+                                color: _style?.cardColor,
                               ),
                               children: <TextSpan>[
                                 TextSpan(
                                     text: 'Music\n',
                                     style: PrimaryFont.bold(14).copyWith(
-                                        color: const Color(0xffA1A4B2),
-                                        height: 3.0)),
+                                        color: _style?.cardColor, height: 3.0)),
                                 TextSpan(
                                     text: 'Description',
-                                    style: PrimaryFont.medium(13).copyWith(
-                                        color: const Color(0xffA1A4B2))),
+                                    style: PrimaryFont.medium(13)
+                                        .copyWith(color: _style?.cardColor)),
                                 TextSpan(
                                     text: '\n\nNarrator',
-                                    style: PrimaryFont.bold(20).copyWith(
-                                        color: const Color(0xff3F414E))),
+                                    style: PrimaryFont.bold(20)
+                                        .copyWith(color: _style?.cardColor)),
                               ],
                             ),
                           ),
@@ -226,7 +237,7 @@ class PlayListState extends State<PlayList>
                 //TabBar
                 SliverAppBar(
                   elevation: 0,
-                  backgroundColor: Colors.white,
+                  backgroundColor: _style?.backgroundColor,
                   snap: false,
                   pinned: true,
                   floating: true,
@@ -264,6 +275,7 @@ class PlayListState extends State<PlayList>
                   children: [
                     // Voice Tab
                     Container(
+                      color: _style?.backgroundColor,
                       child: Directionality(
                         textDirection: TextDirection.ltr,
                         child: ListView.builder(
@@ -289,12 +301,14 @@ class PlayListState extends State<PlayList>
                                                 BorderRadius.circular(100),
                                             border: Border.all(
                                               width: 1,
+                                              color: _style!.cardColor,
                                             )),
                                         child: IconButton(
                                           autofocus: true,
                                           icon: Image(
                                             image:
                                                 AssetImage("images/play.png"),
+                                            color: _style?.cardColor,
                                             width: 12.0,
                                           ),
                                           onPressed: () {},
@@ -310,13 +324,17 @@ class PlayListState extends State<PlayList>
                                           children: [
                                             Text(
                                               musics[index]["name"],
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16.0),
+                                              style:
+                                                  PrimaryFont.bold(16).copyWith(
+                                                color: _style?.cardColor,
+                                              ),
                                             ),
                                             Text(
                                               musics[index]["time"],
-                                              style: TextStyle(fontSize: 11.0),
+                                              style: PrimaryFont.medium(11)
+                                                  .copyWith(
+                                                color: _style?.cardColor,
+                                              ),
                                             )
                                           ],
                                         ),

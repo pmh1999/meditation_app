@@ -7,7 +7,7 @@ import 'package:meditation_app/pages/reminders_page.dart';
 import 'package:meditation_app/pages/playlist.dart';
 import 'package:meditation_app/pages/main_page.dart';
 import 'package:meditation_app/provider/DarkThemeNotifier.dart';
-import 'package:meditation_app/utils/theme.dart';
+import 'package:meditation_app/utils/ThemeData.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -58,9 +58,7 @@ class _MyApp extends StatelessWidget {
       builder: DevicePreview.appBuilder,
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: kColorPrimary,
-      ),
+      theme: Styles.themeData(true, context),
       initialRoute: '$MainPage',
       routes: {
         '$GetStartedPage': (_) => const GetStartedPage(),

@@ -2,25 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meditation_app/pages/playlist.dart';
 import 'package:meditation_app/data/model/topic.model.dart';
-import 'package:meditation_app/data/topic_storage.dart';
 import 'package:meditation_app/component/highlight.dart';
-import 'package:meditation_app/utils/theme.dart';
+import 'package:meditation_app/utils/ThemeData.dart';
+import 'package:provider/provider.dart';
+import 'package:meditation_app/provider/DarkThemeNotifier.dart';
 
-final topicStorage = RemoteTopicStorage();
+bool isDark = true;
+ThemeData? _style;
 
-class Home extends StatelessWidget {
-  const Home({
-    Key? key,
-  }) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+  @override
+  State<Home> createState() => HomeState();
+}
+
+class HomeState extends State<Home> {
+  bool isDark = true;
+
+  @override
+  void didChangeDependencies() {
+    isDark = Provider.of<DarkThemeNotifier>(context).isDarkMode;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
+    _style = Styles.themeData(isDark, context);
     return Column(
       children: [
         Expanded(
           child: Align(
             alignment: Alignment.topCenter,
-            child: SvgPicture.asset('assets/images/ic_logo2.svg'),
+            child: SvgPicture.asset(isDark
+                ? 'assets/images/ic_logo.svg'
+                : 'assets/images/ic_logo_light.svg'),
           ),
         ),
         const Expanded(
@@ -35,7 +50,8 @@ class Home extends StatelessWidget {
             child: Highlight(
                 title: "Daily though",
                 description: "MEDITATION 3-10 MIN",
-                url: "images/boxbg.png")),
+                url: "images/boxbg.png",
+                color: Colors.white)),
         Flexible(
             flex: 3,
             fit: FlexFit.tight,
@@ -49,7 +65,8 @@ class Home extends StatelessWidget {
                         child: Text(
                           'Recommended for you',
                           style: PrimaryFont.bold(
-                              context.screenSize.shortestSide * 0.06),
+                                  context.screenSize.shortestSide * 0.06)
+                              .copyWith(color: _style?.cardColor),
                         )),
                   ),
                 ),
@@ -82,14 +99,13 @@ class Goodmorning extends StatelessWidget {
               style: PrimaryFont.bold(context.screenSize.shortestSide * 0.07)
                   .copyWith(
                 height: 1.5,
+                color: _style?.cardColor,
               ),
             ),
             Text(
               'We wish you have a good day',
               style: PrimaryFont.light(context.screenSize.shortestSide * 0.05)
-                  .copyWith(
-                height: 1.5,
-              ),
+                  .copyWith(height: 1.5, color: _style?.cardColor),
             )
           ]),
     );
@@ -188,7 +204,8 @@ class RecommendedList extends StatelessWidget {
                         bottom: 5.0, left: 5.0, right: 5.0, top: 10.0),
                     child: Text(
                       topic.title,
-                      style: PrimaryFont.bold(18.0).copyWith(color: kColorText),
+                      style: PrimaryFont.bold(18.0)
+                          .copyWith(color: _style?.cardColor),
                     ),
                   ),
 
@@ -199,7 +216,7 @@ class RecommendedList extends StatelessWidget {
                           // Box Type
                           Text("SLEEP MUSIC",
                               style: PrimaryFont.light(11.0)
-                                  .copyWith(color: kColorText)),
+                                  .copyWith(color: _style?.cardColor)),
                           // Dot
                           Padding(
                             padding: const EdgeInsets.all(5.0),
@@ -208,7 +225,7 @@ class RecommendedList extends StatelessWidget {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.all(
                                     Radius.circular(10)), //here
-                                color: kColorLightYellow,
+                                color: _style?.cardColor,
                               ),
                             ),
                           ),
@@ -216,7 +233,7 @@ class RecommendedList extends StatelessWidget {
                           Text(
                             '40 MIN',
                             style: PrimaryFont.light(11.0)
-                                .copyWith(color: kColorText),
+                                .copyWith(color: _style?.cardColor),
                           )
                         ],
                       )),

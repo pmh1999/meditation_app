@@ -11,11 +11,13 @@ class Highlight extends StatelessWidget {
   String title;
   String description;
   String url;
+  Color color;
   Highlight(
       {Key? key,
       required this.title,
       required this.description,
-      required this.url})
+      required this.url,
+      required this.color})
       : super(key: key);
 
   @override
@@ -45,13 +47,13 @@ class Highlight extends StatelessWidget {
                         title,
                         style: PrimaryFont.bold(
                                 context.screenSize.shortestSide * 0.05)
-                            .copyWith(color: Color(0xffEBEAEC)),
+                            .copyWith(color: color),
                       ),
                       Text(
                         description,
                         style: PrimaryFont.light(
                                 context.screenSize.shortestSide * 0.03)
-                            .copyWith(color: Color(0xffEBEAEC)),
+                            .copyWith(color: color),
                       )
                     ],
                   ),
