@@ -5,7 +5,7 @@ meditation app, Explore the app, Find some peace of mind to prepare for meditati
 
 ## Previews ⛶
 
-<img src="preview/pv1.PNG" alt="screenshots"  height="350" width="160"> <img src="preview/pv6.PNG" alt="screenshots"  height="350" width="160"> 
+<img src="preview/pv1.PNG" alt="screenshots"> <img src="preview/pv6.PNG" alt="screenshots"  height="350" width="160"> 
 
 <img src="preview/pv2.PNG" alt="screenshots"  height="350" width="160"> <img src="preview/pv7.PNG" alt="screenshots"  height="350" width="160"> 
 
