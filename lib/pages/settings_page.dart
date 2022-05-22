@@ -27,7 +27,8 @@ class SettingsState extends State<Settings> {
     _style = Styles.themeData(isDark, context);
     return Column(
       children: [
-        Expanded(
+        Flexible(
+          flex: 3,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -43,7 +44,7 @@ class SettingsState extends State<Settings> {
           ),
         ),
         Flexible(
-          flex: 3,
+          flex: 1,
           fit: FlexFit.loose,
           child: Container(
             margin: EdgeInsets.only(right: 20.0, left: 20.0, top: 10.0),
@@ -78,6 +79,7 @@ class SettingsState extends State<Settings> {
             ),
           ),
         ),
+        Flexible(flex: 3, child: Container()),
       ],
     );
   }

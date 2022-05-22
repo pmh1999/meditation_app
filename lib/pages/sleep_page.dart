@@ -138,47 +138,45 @@ class _SleepState extends State<Sleep> with TickerProviderStateMixin {
                 children: [
                   Column(
                     children: [
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).pushNamed('$PlayList');
-                          },
-                          child: Container(
-                            height: context.screenSize.height * 0.2,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("images/sleep_banner.png"),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).pushNamed('$PlayList');
+                        },
+                        child: Container(
+                          height: context.screenSize.height * 0.2,
+                          width: context.screenSize.width * 0.9,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("images/sleep_banner.png"),
+                              fit: BoxFit.cover,
                             ),
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "The Ocean Moon",
-                                    style: PrimaryFont.bold(20)
-                                        .copyWith(color: kColorLightYellow),
-                                  ),
-                                  Text(
-                                    "Non-stop 8-hour mixes of our\n most popular sleep audio",
-                                    style: PrimaryFont.medium(10)
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                  TextButton(
-                                    child: Text('Start'),
-                                    style: TextButton.styleFrom(
-                                      backgroundColor: Colors.white,
-                                      primary: kColorLightYellow,
-                                      shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(25.0))),
-                                    ),
-                                    onPressed: () {},
-                                  ),
-                                ]),
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
                           ),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "The Ocean Moon",
+                                  style: PrimaryFont.bold(30)
+                                      .copyWith(color: kColorLightYellow),
+                                ),
+                                Text(
+                                  "Non-stop 8-hour mixes of our\n most popular sleep audio",
+                                  style: PrimaryFont.medium(15)
+                                      .copyWith(color: Colors.white),
+                                ),
+                                TextButton(
+                                  child: Text('Start'),
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    primary: kColorLightYellow,
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(25.0))),
+                                  ),
+                                  onPressed: () {},
+                                ),
+                              ]),
                         ),
                       ),
                       Expanded(
@@ -267,7 +265,9 @@ class _SleepState extends State<Sleep> with TickerProviderStateMixin {
                                 ],
                               ),
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.of(context).pushNamed('$PlayList');
+                            },
                           ));
                         },
                       ))

@@ -63,7 +63,7 @@ class PlayListState extends State<PlayList>
     _style = Styles.themeData(isDark, context);
 
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: _style?.backgroundColor,
         body: SafeArea(
           child: DefaultTabController(
             length: 2,

@@ -13,9 +13,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   final preferences = await SharedPreferences.getInstance();
-  runApp(
-    MyApp(preferences: preferences), // Wrap your app
-  );
+  runApp(DevicePreview(
+    enabled: !kReleaseMode,
+    builder: (context) => MyApp(preferences: preferences), // Wrap your app
+  ));
 }
 
 class MyApp extends StatelessWidget {

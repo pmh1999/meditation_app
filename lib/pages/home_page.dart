@@ -177,6 +177,7 @@ class RecommendedList extends StatelessWidget {
             child: Container(
               width: 162,
               height: 181.0,
+              margin: EdgeInsets.all(4),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 //color: topic.bgColor,
@@ -200,7 +201,7 @@ class RecommendedList extends StatelessWidget {
                   ),
                   // Text Title
                   Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                         bottom: 5.0, left: 5.0, right: 5.0, top: 10.0),
                     child: Text(
                       topic.title,
@@ -210,7 +211,7 @@ class RecommendedList extends StatelessWidget {
                   ),
 
                   Container(
-                      padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                      padding: const EdgeInsets.only(left: 5.0, right: 5.0),
                       child: Row(
                         children: [
                           // Box Type
@@ -223,7 +224,7 @@ class RecommendedList extends StatelessWidget {
                             child: Container(
                               padding: EdgeInsets.all(1.5),
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                     Radius.circular(10)), //here
                                 color: _style?.cardColor,
                               ),
@@ -240,7 +241,9 @@ class RecommendedList extends StatelessWidget {
                 ],
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed('$PlayList');
+            },
           )),
         );
       },
@@ -268,7 +271,8 @@ class FeatureList extends StatelessWidget {
           child: Padding(
             padding:
                 EdgeInsets.fromLTRB(context.screenSize.width * 0.02, 0, 0, 0),
-            child: DecoratedBox(
+            child: Container(
+              margin: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                   color: topic.bgColor, borderRadius: BorderRadius.circular(5)),
               child: Column(
@@ -291,42 +295,50 @@ class FeatureList extends StatelessWidget {
                   Flexible(
                     flex: 1,
                     fit: FlexFit.loose,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(topic.title,
-                          style: PrimaryFont.bold(
-                                  context.screenSize.shortestSide * 0.04)
-                              .copyWith(color: topic.textColor)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(topic.title,
+                            style: PrimaryFont.bold(
+                                    context.screenSize.shortestSide * 0.04)
+                                .copyWith(color: topic.textColor)),
+                      ),
                     ),
                   ),
                   Flexible(
                     flex: 1,
                     fit: FlexFit.loose,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text('5 - 10 MIN',
-                              style: PrimaryFont.light(
-                                      context.screenSize.shortestSide * 0.03)
-                                  .copyWith(color: topic.textColor)),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            child: Text('Start'),
-                            style: TextButton.styleFrom(
-                              backgroundColor: kColorDarkGrey,
-                              primary: kColorLightYellow,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(25.0))),
-                            ),
-                            onPressed: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text('5 - 10 MIN',
+                                style: PrimaryFont.light(
+                                        context.screenSize.shortestSide * 0.03)
+                                    .copyWith(color: topic.textColor)),
                           ),
-                        ),
-                      ],
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              child: Text('Start'),
+                              style: TextButton.styleFrom(
+                                backgroundColor: kColorDarkGrey,
+                                primary: kColorLightYellow,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(25.0))),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pushNamed('$PlayList');
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
